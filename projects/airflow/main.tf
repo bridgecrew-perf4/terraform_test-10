@@ -7,6 +7,14 @@ provider "aws" {
     region = "ap-northeast-1"
 }
 
+module "security_group" {
+    source = "../../modules/security_group"
+}
+
+module "iam_role" {
+    source = "../../modules/iam_role"
+}
+
 module "instance" {
     source = "../../modules/instance"
     name = "trader_airflow"

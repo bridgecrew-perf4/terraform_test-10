@@ -8,7 +8,9 @@ provider "aws" {
 }
 
 module "instance" {
-    source = "../../modules/ec2/private"
+    source = "../../modules/instance"
     name = "trader_airflow"
     instance_type = "t3.micro"
+    security_group_id = module.security_group.trader_private_security_group_id
+    iam_role = module.iam_role.cloudwatch_role
 }

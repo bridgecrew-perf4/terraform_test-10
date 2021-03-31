@@ -8,7 +8,7 @@ provider "aws" {
 }
 
 module "instance" {
-    source = "../../modules/ec2/private/main"
+    source = "../../modules/ec2/private"
     name = "trader_airflow"
     instance_type = "t3.micro"
 }

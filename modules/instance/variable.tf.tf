@@ -10,14 +10,6 @@ variable instance_type {
   description = "Instance Type"
 }
 
-variable security_group_id {
-  type        = string
-  default     = ""
-  description = "description"
-}
+variable security_group_id {}
 
-variable iam_role {
-  type        = string
-  default     = ""
-  description = "description"
-}
+variable iam_role {}

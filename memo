@@ -1,0 +1,7 @@
+terragrunt import module.iam_role.aws_iam_role.cloudwatch_test_role EC2CloudWatchTest
+terragrunt import module.iam_role.aws_iam_role_policy_attachment.cloudwatch_test_role_cloudwatch_policy_attach EC2CloudWatchTest/arn:aws:iam::aws:policy/CloudWatchFullAccess
+terragrunt import module.iam_role.aws_iam_role_policy_attachment.cloudwatch_test_role_cloudwatchagent_policy_attach EC2CloudWatchTest/arn:aws:iam::aws:policy/CloudWatchAgentAdminPolicy
+
+terragrunt import module.security_group.aws_security_group.trader_private sg-0a81ec534a7075656
+terragrunt import module.security_group.aws_security_group_rule.trader_private_inbound sg-0a81ec534a7075656_ingress_tcp_22_22_10.110.0.0/16
+terragrunt import module.security_group.aws_security_group_rule.trader_private_outbound sg-0a81ec534a7075656_egress_-1_0_0_0.0.0.0/0

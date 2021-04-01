@@ -3,7 +3,7 @@ include {
 }
 
 locals {
-  config = read_terragrunt_config(find_in_parent_folders("terragrunt.hcl"))
+    config = yamldecode(file(find_in_parent_folders("common_vars.yml")))
 }
 
 remote_state {

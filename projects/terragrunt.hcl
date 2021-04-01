@@ -1,5 +1,5 @@
 locals {
-    config = yamldecode(file("${get_terragrunt_dir()}/config.yml"))
+    config = yamldecode(file(find_in_parent_folders("common_vars.yml")))
 }
 
 inputs = {

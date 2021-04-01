@@ -11,3 +11,7 @@ remote_state {
     encrypt = local.config.encrypt
   }
 }
+
+dependency "base" {
+  config_path = "./base"
+}

@@ -2,6 +2,10 @@ locals {
     config = yamldecode(file("${get_terragrunt_dir()}/../../config/config.yml"))
 }
 
+inputs = {
+  config = local.config
+}
+
 remote_state {
   backend = "s3"
   config = {

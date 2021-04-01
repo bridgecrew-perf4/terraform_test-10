@@ -6,7 +6,7 @@ remote_state {
   backend = "s3"
   config = {
     bucket  = local.config.bucket
-    key     = "terraform/${path_relative_to_include()}.tfstate"
+    key     = "terraform/${path_relative_to_include()}/terraform.tfstate"
     region  = local.config.region
     encrypt = local.config.encrypt
   }

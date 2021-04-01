@@ -1,3 +1,3 @@
-output "cloudwatch_role" {
-    value = aws_iam_role.cloudwatch_test_role.name
+output "role_cloudwatch" {
+    value = aws_iam_role.cloudwatch_test_role
 }

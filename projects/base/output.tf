@@ -1,7 +1,7 @@
 output "role_cloudwatch" {
-    value = module.aws_iam_role.cloudwatch_test_role.name
+    value = module.aws_iam_role.role_cloudwatch.name
 }
 
 output "sg_private" {
-    value = module.aws_security_group.trader_private.id
+    value = module.aws_security_group.sg_private.id
 }

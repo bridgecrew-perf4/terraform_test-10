@@ -7,12 +7,12 @@ provider "aws" {
     region = "ap-northeast-1"
 }
 
-data "terraform_remote_state" "common" {
+data "terraform_remote_state" "base" {
     backend = "s3"
 
     config = {
         bucket = "valis-develop"
-        key = "terraform/common.tfstate"
+        key = "terraform/base.tfstate"
         region = "ap-northeast-1"
     }
 }
@@ -21,6 +21,6 @@ module "instance" {
     source = "../../modules/instance"
     name = "trader_airflow"
     instance_type = "t3.micro"
-    security_group_id = data.terraform_remote_state.common.trader_private_security_group_id
-    iam_role = data.terraform_remote_state.common.cloudwatch_role
+    security_group_id = data.terraform_remote_state.base.outputs.role_cloudwatch.value
+    iam_role = data.terraform_remote_state.base.outputs.sg_private.value
 }

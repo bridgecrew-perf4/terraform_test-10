@@ -16,6 +16,11 @@ generate "provider" {
   path = "provider.tf"
   if_exists = "overwrite"
   contents = <<EOF
+terraform {
+    required_version = "~> 0.14"
+    backend "s3" {}
+}
+
 provider "aws" {
     region = "ap-northeast-1"
 }

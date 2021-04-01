@@ -1,18 +1,3 @@
-terraform {
-    required_version = "~> 0.14"
-    backend "s3" {}
-}
-
-data "terraform_remote_state" "base" {
-    backend = "s3"
-
-    config = {
-        bucket = "valis-develop"
-        key = "terraform/base.tfstate"
-        region = "ap-northeast-1"
-    }
-}
-
 module "instance" {
     source = "../../modules/instance"
     name = "trader_airflow"

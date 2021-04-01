@@ -26,3 +26,19 @@ provider "aws" {
 }
 EOF
 }
+
+generate "data" {
+  path = "data.tf"
+  if_exists = "overwrite"
+  contents = <<EOF
+data "terraform_remote_state" "base" {
+    backend = "s3"
+
+    config = {
+        bucket = "${local.config.bucket}"
+        key = "terraform/base.tfstate"
+        region = "${local.config.region}"
+    }
+}
+EOF
+}

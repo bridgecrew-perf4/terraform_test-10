@@ -1,14 +1,7 @@
-terraform {
-    required_version = "~> 0.14"
-    backend "s3" {}
-}
-
-provider "aws" {
-    region = "ap-northeast-1"
-}
-
 module "instance" {
     source = "../../modules/ec2/private"
     name = "trader_tuner"
     instance_type = "t3.micro"
+    security_group_id = data.terraform_remote_state.base.outputs.role_cloudwatch
+    iam_role = data.terraform_remote_state.base.outputs.sg_private
 }

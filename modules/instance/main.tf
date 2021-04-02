@@ -9,7 +9,10 @@ resource "aws_instance" "instance" {
   tags = {
     Name = var.name
   }
-  provisioner "remote-exec" {
-    inline = ["sudo hostnamectl set-hostname ${var.name}"]
+  provisioner "remote-exec"  {
+    inline = [
+      "sudo hostnamectl set-hostname ${var.name}",
+      "sudo reboot"
+    ]
   }
 }

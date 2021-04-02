@@ -6,17 +6,12 @@ resource "aws_instance" "instance" {
   key_name               = "baba-test"
   subnet_id              = "subnet-0872ffa27ce8a2735"
   vpc_security_group_ids = [var.security_group_id]
+  user_data     = <<EOF
+#!bin/bash
+sudo hostnamectl set-hostname ${var.name}
+sudo reboot
+EOF
   tags = {
     Name = var.name
-  }
-  provisioner "remote-exec"  {
-    connection {
-      type = "ssh"
-      key_file = "~/.ssh/baba-test.pem"
-    }
-    inline = [
-      "sudo hostnamectl set-hostname ${var.name}",
-      "sudo reboot"
-    ]
   }
 }

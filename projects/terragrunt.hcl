@@ -40,7 +40,7 @@ data "terraform_remote_state" "base" {
 
     config = {
         bucket = "${local.config.bucket}"
-        key = "terraform/base.tfstate"
+        key = "terraform/base/base.tfstate"
         region = "${local.config.region}"
     }
 }

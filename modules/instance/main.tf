@@ -10,6 +10,10 @@ resource "aws_instance" "instance" {
     Name = var.name
   }
   provisioner "remote-exec"  {
+    connection {
+      type = "ssh"
+      key_file = "~/.ssh/baba-test.pem"
+    }
     inline = [
       "sudo hostnamectl set-hostname ${var.name}",
       "sudo reboot"

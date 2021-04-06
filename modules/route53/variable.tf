@@ -17,6 +17,6 @@ variable type {
 
 variable zone_id {
   type        = string
-  default     = "trader.com"
+  default     = "Z06007892J2TBE2873RJ4"
   description = "description"
 }

@@ -10,11 +10,16 @@ module "instance" {
     iam_role = data.terraform_remote_state.base.outputs.role_cloudwatch
 }
 
+output "private_ip" {
+    value = module.instance.private_ip
+}
+
+
 module "route53" {
     source = "../../../modules/route53"
     name = local.name
     zone_id = "Z06007892J2TBE2873RJ4"
-    records = [module.instance.private_ip]
+    records = [module.instance.outputs.private_ip]
 }
 
 module "cloud_watch" {

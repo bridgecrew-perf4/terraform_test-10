@@ -19,5 +19,5 @@ output "sg_private" {
 }
 
 output "route53_zone" {
-    value = module.route53_zone.private.zone_id
+    value = module.route53_zone.route53_zone.zone_id
 }

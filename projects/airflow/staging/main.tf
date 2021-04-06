@@ -13,7 +13,7 @@ module "instance" {
 module "route53" {
     source = "../../../modules/route53"
     name = local.name
-    zone_id = data.terraform_remote_state.base.outputs.route53_zone
+    zone_id = "Z06007892J2TBE2873RJ4"
 }
 
 module "cloud_watch" {

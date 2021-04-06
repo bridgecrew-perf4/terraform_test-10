@@ -20,3 +20,8 @@ variable zone_id {
   default     = "Z06007892J2TBE2873RJ4"
   description = "description"
 }
+
+variable records {
+  type        = list
+  description = "description"
+}

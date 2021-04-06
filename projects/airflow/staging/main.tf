@@ -14,6 +14,7 @@ module "route53" {
     source = "../../../modules/route53"
     name = local.name
     zone_id = "Z06007892J2TBE2873RJ4"
+    records = [module.instance.private_ip]
 }
 
 module "cloud_watch" {

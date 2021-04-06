@@ -3,4 +3,5 @@ resource "aws_route53_record" "this" {
     ttl  = var.ttl
     type = var.type
     zone_id = var.zone_id
+    records = var.records
 }

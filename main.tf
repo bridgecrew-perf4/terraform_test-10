@@ -17,6 +17,10 @@ terraform {
   }
 }
 
+variable "pgp_key" {
+  default = file("./pgp_key")
+}
+
 module "iam_user" {
     source = "./modules/iam/user"
     iam_user_count = 2

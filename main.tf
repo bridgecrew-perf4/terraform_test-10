@@ -38,7 +38,7 @@ module "iam_group" {
     group_policys = [
         data.aws_iam_policy.power_user_policy.arn,
         data.aws_iam_policy.change_password_policy.arn,
-        module.force_mfa_policy.policy_id,
-        module.pass_role_policy.policy_id
+        module.force_mfa_policy.arn,
+        module.pass_role_policy.arn
     ]
 }

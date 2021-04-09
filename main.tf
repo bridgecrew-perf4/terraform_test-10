@@ -24,6 +24,7 @@ module "iam_user" {
         "test_user1",
         "test_user2"
     ]
+    pgp_key = var.pgp_key
 }
 
 module "iam_group" {

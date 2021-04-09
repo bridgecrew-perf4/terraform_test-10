@@ -10,10 +10,6 @@ data "template_file" "pass_role_policy_template" {
   template = file("./iam_policies/pass_role_policy.json")
 }
 
-data "template_file" "force_mfa_policy_template" {
-  template = file("./iam_policies/force_mfa_policy.json")
-}
-
 module "pass_role_policy" {
   source = "./modules/iam/policy"
   name = "pass_role_policy"
@@ -27,7 +23,7 @@ output "pass_role_policy" {
 module "force_mfa_policy" {
   source = "./modules/iam/policy"
   name = "force_mfa_policy"
-  policy = data.template_file.force_mfa_policy_template.rendered
+  policy = file("./iam_policies/force_mfa_policy.json")
 }
 
 output "force_mfa_policy" {

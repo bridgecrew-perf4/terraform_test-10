@@ -36,6 +36,7 @@ resource "aws_iam_user_login_profile" "login_profile" {
   pgp_key                 = var.pgp_key
   password_reset_required = true
   password_length         = "20"
+  depends_on = [aws_iam_user.iam_user]
 }
 
 output "user" {
@@ -56,16 +57,17 @@ resource "aws_iam_group_membership" "iam_group_membership" {
   users = [
     "${element(var.iam_users, count.index)}",
   ]
-  group = var.iam_group_name
+  group = aws_iam_group.iam_group.name
+  depends_on = [aws_iam_user.iam_user]
 }
 
 resource "aws_iam_group_policy_attachment" "policy_attach" {
-  group = var.iam_group_name
+  group = aws_iam_group.iam_group.name
   for_each = toset([
     data.aws_iam_policy.power_user_policy.arn,
     data.aws_iam_policy.change_password_policy.arn,
     aws_iam_policy.force_mfa_policy.arn,
-    aws_iam_policy.pass_role_policy.arn
+    aws_iam_policy.pass_role_policy.arn,
   ])
   policy_arn = each.value
 }

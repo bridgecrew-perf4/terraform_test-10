@@ -41,4 +41,8 @@ module "iam_group" {
         module.force_mfa_policy.arn,
         module.pass_role_policy.arn
     ]
+    depends_on = [
+      module.force_mfa_policy,
+      module.pass_role_policy
+    ]
 }

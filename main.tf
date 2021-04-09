@@ -19,7 +19,7 @@ terraform {
 
 module "iam_user" {
     source = "./modules/iam/user"
-    count = 2
+    iam_user_count = 2
     iam_users = [
         "test_user1",
         "test_user2"
@@ -28,7 +28,7 @@ module "iam_user" {
 
 module "iam_group" {
     source = "./modules/iam/group"
-    count = 2
+    iam_user_count = 2
     iam_group_name = "test_group"
     iam_group_membership_name = "test_iam_group_membership"
     iam_users = [

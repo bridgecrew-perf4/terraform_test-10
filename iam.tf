@@ -6,18 +6,14 @@ data "aws_iam_policy" "change_password_policy" {
   arn = "arn:aws:iam::aws:policy/IAMUserChangePassword"
 }
 
-data "template_file" "pass_role_policy_template" {
-  template = file("./iam_policies/pass_role_policy.json")
-}
-
 module "pass_role_policy" {
   source = "./modules/iam/policy"
   name = "pass_role_policy"
-  policy = data.template_file.pass_role_policy_template.rendered
+  policy = file("./iam_policies/pass_role_policy.json")
 }
 
-output "pass_role_policy" {
-  value = module.pass_role_policy.policy_id
+output "pass_role_policy_arn" {
+  value = module.pass_role_policy.arn
 }
 
 module "force_mfa_policy" {
@@ -26,6 +22,6 @@ module "force_mfa_policy" {
   policy = file("./iam_policies/force_mfa_policy.json")
 }
 
-output "force_mfa_policy" {
-  value = module.force_mfa_policy.policy_id
+output "force_mfa_policy_arn" {
+  value = module.force_mfa_policy.arn
 }

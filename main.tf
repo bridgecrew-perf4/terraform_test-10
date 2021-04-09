@@ -18,7 +18,7 @@ terraform {
 }
 
 module "iam_user" {
-    source = "modules/iam/user"
+    source = "./modules/iam/user"
     iam_users = [
         "test_user1",
         "test_user2"
@@ -26,7 +26,7 @@ module "iam_user" {
 }
 
 module "iam_group" {
-    source = "modules/iam/group"
+    source = "./modules/iam/group"
     iam_group_name = "test_group"
     iam_group_membership_name = "test_iam_group_membership"
     iam_users = [

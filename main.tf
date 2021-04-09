@@ -19,6 +19,7 @@ terraform {
 
 module "iam_user" {
     source = "./modules/iam/user"
+    count = 2
     iam_users = [
         "test_user1",
         "test_user2"
@@ -27,6 +28,7 @@ module "iam_user" {
 
 module "iam_group" {
     source = "./modules/iam/group"
+    count = 2
     iam_group_name = "test_group"
     iam_group_membership_name = "test_iam_group_membership"
     iam_users = [
@@ -36,7 +38,7 @@ module "iam_group" {
     group_policys = [
         data.aws_iam_policy.power_user_policy.arn,
         data.aws_iam_policy.change_password_policy.arn,
-        module.force_mfa_policy.output,
-        module.pass_role_policy.output
+        module.force_mfa_policy.outputs.force_mfa_policy,
+        module.pass_role_policy.outputs.pass_role_policy
     ]
 }

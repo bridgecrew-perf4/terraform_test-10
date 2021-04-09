@@ -28,7 +28,7 @@ module "iam_user" {
 
 module "iam_group" {
     source = "./modules/iam/group"
-    iam_user_count = 2
+    count = 2
     iam_group_name = "test_group"
     iam_group_membership_name = "test_iam_group_membership"
     iam_users = [

@@ -1,3 +1,0 @@
-[submodule "modules"]
-	path = modules
-	url = https://github.com/smn-ailab/terraform_commons.git

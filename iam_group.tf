@@ -1,3 +1,7 @@
+variable iam_group_name {}
+variable iam_group_membership_name {}
+variable iam_users {}
+
 resource "aws_iam_group" "iam_group" {
   name = var.iam_group_name
 }

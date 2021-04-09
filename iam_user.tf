@@ -1,3 +1,6 @@
+variable iam_users {}
+variable pgp_key {}
+
 resource "aws_iam_user" "iam_user" {
   count         = length(var.iam_users)
   name          = element(var.iam_users, count.index)

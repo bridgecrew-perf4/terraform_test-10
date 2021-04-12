@@ -60,7 +60,9 @@
                 "iam:ListMFADevices",
                 "iam:ListUsers",
                 "iam:ListVirtualMFADevices",
-                "iam:ResyncMFADevice"
+                "iam:ResyncMFADevice",
+                "iam:GetAccountPasswordPolicy",
+                "iam:ChangePassword"
             ],
             "Resource": "*",
             "Condition": {

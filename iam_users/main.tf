@@ -27,8 +27,8 @@ resource "aws_iam_user" "iam_user" {
 }
 
 resource "aws_iam_user_login_profile" "login_profile" {
-  count                   = length(local.config.iam_users)
-  user                    = element(local.config.iam_users, count.index)
+  count                   = length(aws_iam_user.iam_user.*.name)
+  user                    = element(aws_iam_user.iam_user.*.name, count.index)
   pgp_key                 = local.config.pgp_key
   password_reset_required = true
   password_length         = "20"
@@ -42,11 +42,8 @@ resource "aws_iam_group" "iam_group" {
 resource "aws_iam_group_membership" "iam_group_membership" {
   count = length(local.config.iam_users)
   name  = local.config.iam_group_membership_name
-  users = [
-    "${element(local.config.iam_users, count.index)}",
-  ]
+  users = [aws_iam_user.iam_user.*.name]
   group = aws_iam_group.iam_group.name
-  depends_on = [aws_iam_user.iam_user]
 }
 
 resource "aws_iam_group_policy_attachment" "policy_attach" {

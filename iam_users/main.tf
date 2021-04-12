@@ -14,7 +14,7 @@ data "terraform_remote_state" "iam_policy" {
   backend = "s3"
   config = {
     bucket = local.config.bucket
-    key = local.config.key_prefix/iam_policies/terraform.tfstate
+    key = "${local.config.key_prefix}/iam_policies/terraform.tfstate"
     region = local.config.region
   }
 }
@@ -27,7 +27,7 @@ resource "aws_iam_user" "iam_user" {
 }
 
 resource "aws_iam_user_login_profile" "login_profile" {
-  count                   = length(valocal.configr.iam_users)
+  count                   = length(local.config.iam_users)
   user                    = element(local.config.iam_users, count.index)
   pgp_key                 = local.config.pgp_key
   password_reset_required = true

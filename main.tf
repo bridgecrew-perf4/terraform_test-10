@@ -70,4 +70,8 @@ resource "aws_iam_group_policy_attachment" "policy_attach" {
     aws_iam_policy.pass_role_policy.arn,
   ])
   policy_arn = each.value
+  depends_on = [
+      aws_iam_policy.force_mfa_policy,
+      aws_iam_policy.pass_role_policy
+  ]
 }

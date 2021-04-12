@@ -1,7 +1,6 @@
-variable iam_users {}
-variable pgp_key {}
-variable iam_group_name {}
-variable iam_group_membership_name {}
+locals {
+  config = yamldecode(file(find_in_parent_folders("config.yml")))
+}
 
 data "aws_iam_policy" "power_user_policy" {
   arn = "arn:aws:iam::aws:policy/PowerUserAccess"
@@ -11,29 +10,26 @@ data "aws_iam_policy" "change_password_policy" {
   arn = "arn:aws:iam::aws:policy/IAMUserChangePassword"
 }
 
-resource "aws_iam_policy" "pass_role_policy" {
-  name   = "pass_role_policy"
-  path   = "/"
-  policy = file("./iam_policies/pass_role_policy.json")
-}
-
-resource "aws_iam_policy" "force_mfa_policy" {
-  name   = "force_mfa_policy"
-  path   = "/"
-  policy = file("./iam_policies/force_mfa_policy.json")
+data "terraform_remote_state" "iam_policy" {
+  backend = "s3"
+  config = {
+    bucket = local.config.bucket
+    key = local.config.key_prefix/iam_policies/terraform.tfstate
+    region = local.config.region
+  }
 }
 
 resource "aws_iam_user" "iam_user" {
-  count         = length(var.iam_users)
-  name          = element(var.iam_users, count.index)
+  count         = length(local.config.iam_users)
+  name          = element(local.config.iam_users, count.index)
   path          = "/"
   force_destroy = true
 }
 
 resource "aws_iam_user_login_profile" "login_profile" {
-  count                   = length(var.iam_users)
-  user                    = element(var.iam_users, count.index)
-  pgp_key                 = var.pgp_key
+  count                   = length(valocal.configr.iam_users)
+  user                    = element(local.config.iam_users, count.index)
+  pgp_key                 = local.config.pgp_key
   password_reset_required = true
   password_length         = "20"
   depends_on = [aws_iam_user.iam_user]
@@ -48,14 +44,14 @@ output "password" {
 }
 
 resource "aws_iam_group" "iam_group" {
-  name = var.iam_group_name
+  name = local.config.iam_group_name
 }
 
 resource "aws_iam_group_membership" "iam_group_membership" {
-  count = length(var.iam_users)
-  name  = var.iam_group_membership_name
+  count = length(local.config.iam_users)
+  name  = local.config.iam_group_membership_name
   users = [
-    "${element(var.iam_users, count.index)}",
+    "${element(local.config.iam_users, count.index)}",
   ]
   group = aws_iam_group.iam_group.name
   depends_on = [aws_iam_user.iam_user]
@@ -66,12 +62,8 @@ resource "aws_iam_group_policy_attachment" "policy_attach" {
   for_each = toset([
     data.aws_iam_policy.power_user_policy.arn,
     data.aws_iam_policy.change_password_policy.arn,
-    aws_iam_policy.force_mfa_policy.arn,
-    aws_iam_policy.pass_role_policy.arn,
+    data.terraform_remote_state.iam_policy.outputs.pass_role_policy_arn,
+    data.terraform_remote_state.iam_policy.outputs.force_mfa_policy_arn
   ])
   policy_arn = each.value
-  depends_on = [
-      aws_iam_policy.force_mfa_policy,
-      aws_iam_policy.pass_role_policy
-  ]
 }

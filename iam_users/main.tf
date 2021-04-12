@@ -32,7 +32,6 @@ resource "aws_iam_user_login_profile" "login_profile" {
   pgp_key                 = local.config.pgp_key
   password_reset_required = true
   password_length         = "20"
-  depends_on = [aws_iam_user.iam_user]
 }
 
 resource "aws_iam_group" "iam_group" {
@@ -40,9 +39,9 @@ resource "aws_iam_group" "iam_group" {
 }
 
 resource "aws_iam_group_membership" "iam_group_membership" {
-  count = length(local.config.iam_users)
+  count = length(aws_iam_user.iam_user.*.name)
   name  = local.config.iam_group_membership_name
-  users = [aws_iam_user.iam_user.*.name]
+  users = aws_iam_user.iam_user.*.name
   group = aws_iam_group.iam_group.name
 }
 
@@ -58,9 +57,9 @@ resource "aws_iam_group_policy_attachment" "policy_attach" {
 }
 
 output "user" {
-  value = "${join("\n", aws_iam_user.iam_user.*.name)}"
+  value = aws_iam_user.iam_user.*.name
 }
 
 output "password" {
-  value = "${join("\n", aws_iam_user_login_profile.login_profile.*.encrypted_password)}"
+  value = aws_iam_user_login_profile.login_profile.*.encrypted_password
 }

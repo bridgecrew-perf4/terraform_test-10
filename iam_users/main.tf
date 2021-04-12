@@ -35,14 +35,6 @@ resource "aws_iam_user_login_profile" "login_profile" {
   depends_on = [aws_iam_user.iam_user]
 }
 
-output "user" {
-  value = join("\n", aws_iam_user.iam_user.*.name)
-}
-
-output "password" {
-  value = join("\n", aws_iam_user_login_profile.login_profile.*.encrypted_password)
-}
-
 resource "aws_iam_group" "iam_group" {
   name = local.config.iam_group_name
 }
@@ -66,4 +58,12 @@ resource "aws_iam_group_policy_attachment" "policy_attach" {
     data.terraform_remote_state.iam_policy.outputs.force_mfa_policy_arn
   ])
   policy_arn = each.value
+}
+
+output "user" {
+  value = "${join("\n", aws_iam_user.iam_user.*.name)}"
+}
+
+output "password" {
+  value = "${join("\n", aws_iam_user_login_profile.login_profile.*.encrypted_password)}"
 }

@@ -1,5 +1,5 @@
 locals {
-  config = yamldecode(file(find_in_parent_folders("config.yml")))
+  config = yamldecode(file("../config.yml"))
 }
 
 data "aws_iam_policy" "power_user_policy" {
